@@ -61,13 +61,22 @@ class Todo {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   }
 
-  deleteItem(key){
-    this.todoData.delete(key);
+  deleteItem(target){
+    this.todoData.forEach(elem => {
+      if(elem.key === target.closest('.todo-item').key){
+        this.todoData.delete(elem.key);
+      }
+    });
+
     this.render();
   }
     
-  completedItem(completed){
-    this.todoData.completed;
+  completedItem(target){
+    this.todoData.forEach(elem => {
+      if(elem.key === target.closest('.todo-item').key){
+        elem.completed = !elem.completed;        
+      }
+    });
     this.render();
   }
     
@@ -77,24 +86,11 @@ class Todo {
       const target = event.target;
       
       if(target.matches('.todo-remove')) {
-        this.todoData.forEach(elem => {
-          if(elem.key === target.closest('.todo-item').key){
-            this.deleteItem(elem.key);
-            console.log(elem.key);
-          }
-        });
+        this.deleteItem(target);
       }
 
-      if(target.matches('.todo-complete')) {
-        this.todoData.forEach(elem => {
-          if(elem.key === target.closest('.todo-item').key){
-            elem.completed = !elem.completed;
-            this.completedItem(elem.completed);
-            // console.log(elem);
-            // console.log(elem.key);
-            // console.log(elem.completed);
-          }
-        });
+      if(target.matches('.todo-complete')) {        
+        this.completedItem(target);
       }
        
     });
